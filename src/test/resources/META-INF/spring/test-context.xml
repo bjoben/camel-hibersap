@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:ctx="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<util:set id="sapConnection">
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg value="jco.client.client" />
+			<constructor-arg value="100" />
+		</bean>
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg name="name" value="jco.client.user" />
+			<constructor-arg name="value" value="user" />
+		</bean>
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg name="name" value="jco.client.passwd" />
+			<constructor-arg name="value" value="pass" />
+		</bean>
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg name="name" value="jco.client.lang" />
+			<constructor-arg name="value" value="sv" />
+		</bean>
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg name="name" value="jco.client.ashost" />
+			<constructor-arg name="value" value="localhost" />
+		</bean>
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg name="name" value="jco.client.sysnr" />
+			<constructor-arg name="value" value="00" />
+		</bean>
+
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg name="name" value="jco.destination.pool_capacity" />
+			<constructor-arg name="value" value="1" />
+		</bean>
+		<bean class="org.hibersap.configuration.xml.Property">
+			<constructor-arg name="name" value="jco.destination.peak_limit" />
+			<constructor-arg name="value" value="1" />
+		</bean>
+	</util:set>
+
+	<!-- The Camel hibersap camponent can find this bean with the "id" and the 
+		"name" properties -->
+	<bean class="org.hibersap.configuration.xml.SessionManagerConfig"
+		id="A13">
+		<property name="name" value="A14" />
+		<property name="context" value="org.hibersap.execution.jco.JCoContext" />
+		<property name="properties" ref="sapConnection" />
+		<property name="classes" ref="examples" />
+	</bean>
+
+	<util:set id="examples">
+		<value>se.r2m.camel.sap.example.StfcConnection</value>
+		<value>se.r2m.camel.sap.example.SystemInfo</value>
+		<value>se.r2m.camel.sap.example.CompanyCodeGetList</value>
+	</util:set>
+
+	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
+		id="test">
+		<camel:route>
+			<camel:from uri="direct:A12" />
+			<camel:to uri="hibersap:A12" />
+			<camel:to uri="log:fromsap?level=info" />
+		</camel:route>
+
+		<camel:route>
+			<camel:from uri="direct:A13" />
+			<camel:to uri="hibersap:A13" />
+			<camel:to uri="mock:result" />
+		</camel:route>
+
+		<camel:route>
+			<camel:from uri="direct:A14" />
+			<camel:to uri="hibersap:A14?classes=#examples" />
+			<camel:to uri="mock:result" />
+		</camel:route>
+
+	</camel:camelContext>
+
+</beans>
