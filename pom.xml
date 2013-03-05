@@ -7,22 +7,25 @@
 	<groupId>se.r2m.camel</groupId>
 	<artifactId>camel-hibersap</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.1.0</version>
-
+	
 	<name>Camel :: Hibersap</name>
 
+	<parent>
+		<groupId>org.apache.camel</groupId>
+		<artifactId>camel-parent</artifactId>
+		<version>2.10.3</version>
+	</parent>
+	
 	<properties>
-		<camel.version>2.8.3</camel.version>
-		<spring.version>3.0.6.RELEASE</spring.version>
 		<hibersap.version>1.1.0</hibersap.version>
 		<sapjco.version>3.0.9</sapjco.version>
+		<camel.osgi.export.pkg>se.r2m.camel.sap.*</camel.osgi.export.pkg>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
-			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibersap</groupId>
@@ -39,37 +42,33 @@
 			<artifactId>sap-jco</artifactId>
 			<version>${sapjco.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.4</version>
-			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-
+		
+		<!-- ################################################## -->
+		<!-- ############## Test Dependencies ################# -->
+		<!-- ################################################## -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test</artifactId>
-			<version>${camel.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -103,7 +102,6 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.6</version>
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
@@ -111,10 +109,10 @@
 						<Include-Resource>
 							{maven-resources}, {maven-dependencies}
 						</Include-Resource>
+							<!-- native/x86_64/sapjco3.dll;processor=amd64;osname=win32,
+							native/x86/sapjco3.dll;processor=x86;osname=win32 -->
 						<Bundle-NativeCode>
-							native/x86_64/libsapjco3.so;processor=amd64;osname=linux,
-							native/x86_64/sapjco3.dll;processor=amd64;osname=win32,
-							native/x86/sapjco3.dll;processor=x86;osname=win32
+							native/x86_64/libsapjco3.so;processor=amd64;osname=linux
 						</Bundle-NativeCode>
 						<Export-Package>
 							META-INF.services.org.apache.camel.component;-split-package:=merge-last,
@@ -142,4 +140,5 @@
 
 		</plugins>
 	</build>
+	
 </project>
