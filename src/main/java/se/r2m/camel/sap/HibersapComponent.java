@@ -16,10 +16,10 @@
  */
 package se.r2m.camel.sap;
 
+import java.util.Map;
+
 import org.apache.camel.Endpoint;
 import org.apache.camel.impl.DefaultComponent;
-
-import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.configuration.AnnotationConfiguration;
@@ -80,12 +80,13 @@ public class HibersapComponent extends DefaultComponent {
 			throw new IllegalArgumentException("no hibersap session manager configuration found with name " + remaining);
 		}
 
-		SessionManagerConfig sessionConfig = config.getSessionManagerConfig();
+		SessionManager sessionManager = config.buildSessionManager();
+		
+		SessionManagerConfig sessionConfig = sessionManager.getConfig();
 
 		// allow overriding some values by endpoint
 		setProperties(sessionConfig, parameters);
 
-		SessionManager sessionManager = config.buildSessionManager();
 
 		Endpoint endpoint = new HibersapEndpoint(uri, this, sessionManager);
 		return endpoint ;
