@@ -25,7 +25,7 @@ import se.r2m.camel.sap.example.SystemInfo;
 
 public class SapTest extends CamelTestSupport {
 
-	//@Test
+//	@Test
 	public void testSessionManagerAndCamelConfig() {
 
 		resolveMandatoryEndpoint("hibersap:A12");
