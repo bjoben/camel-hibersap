@@ -71,6 +71,10 @@
 			<artifactId>spring-context-support</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-spring</artifactId>
+		</dependency>
 	</dependencies>
 
 
