@@ -45,9 +45,6 @@ public class HibersapEndpoint extends DefaultEndpoint {
 	@Override
 	public Producer createProducer() throws Exception {
 		return new HibersapProducer(this);
-
-
-
 	}
 
 	@Override
