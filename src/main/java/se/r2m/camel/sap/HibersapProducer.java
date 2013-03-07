@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
 import org.apache.camel.AsyncCallback;
 import org.apache.camel.AsyncProcessor;
 import org.apache.camel.Exchange;
@@ -49,6 +50,7 @@ public class HibersapProducer extends DefaultProducer implements AsyncProcessor 
 
 		log.debug("checking if hibersap annotation present");
 		if (!body.getClass().isAnnotationPresent(Bapi.class)) {
+		        log.error("No HiberSAP @Bapi Annotation in Body Class: " + body.getClass().getName());
 			throw new IllegalArgumentException("body must be a class with @org.hibersap.annotations.Bapi annotations");
 		}
 
