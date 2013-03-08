@@ -41,7 +41,7 @@ public class HibersapProducer extends DefaultProducer implements AsyncProcessor 
 		super(endpoint);
 		this.endpoint = endpoint;
 	}
-
+	
 	@Override
 	public void process(Exchange exchange) throws Exception {
 	    
@@ -65,10 +65,8 @@ public class HibersapProducer extends DefaultProducer implements AsyncProcessor 
 			// session.beginTransaction();
 			log.debug("executing function call");
 			session.execute(copy);
-
-			if (exchange.getPattern().isOutCapable()) {
-				exchange.getOut().setBody(copy);
-			}
+			
+			exchange.getIn().setBody(copy);
 			// session.getTransaction().commit();
 		} catch (Exception e) {
 		    log.error("Failed to execute RFC", e);
