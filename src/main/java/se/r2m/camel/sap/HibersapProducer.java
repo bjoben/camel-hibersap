@@ -44,6 +44,7 @@ public class HibersapProducer extends DefaultProducer implements AsyncProcessor 
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
+	    
 		SessionManager sessionManager = endpoint.getSessionManager();
 		log.debug("process(exchange) called, getting serializable body");
 		Object body = exchange.getIn().getMandatoryBody(Serializable.class);
@@ -69,6 +70,9 @@ public class HibersapProducer extends DefaultProducer implements AsyncProcessor 
 				exchange.getOut().setBody(copy);
 			}
 			// session.getTransaction().commit();
+		} catch (Exception e) {
+		    log.error("Failed to execute RFC", e);
+		    throw e;
 		} finally {
 			session.close();
 		}
