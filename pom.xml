@@ -105,20 +105,24 @@
 				<configuration>
 					<instructions>
 						<_failok>true</_failok>
+						<Include-Resource>
+							{maven-resources},
+							{maven-dependencies}
+						</Include-Resource>
 						<Bundle-NativeCode>
 							native/x86_64/libsapjco3.so;processor=amd64;osname=linux,
 							native/x86_64/sapjco3.dll;processor=amd64;osname=win32,
 							native/x86/sapjco3.dll;processor=x86;osname=win32
 						</Bundle-NativeCode>
 						<Export-Package>
-							META-INF.services.org.apache.camel.component;-split-package:=merge-last,
+							META-INF.services.org.apache.camel.component,
 							org.hibersap.*;version="${hibersap.version}",
 							se.r2m.camel.sap
 						</Export-Package>
-						<Private-Package>com.sap.*</Private-Package>
+						<Private-Package>*;-split-package:=merge-last</Private-Package>
 						<Import-Package>
-							!com.sap.*,
-							*
+							<!-- !com.sap.*, -->
+							!*
 						</Import-Package>
 					</instructions>
 				</configuration>
