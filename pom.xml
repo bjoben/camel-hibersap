@@ -19,6 +19,7 @@
 	<properties>
 		<hibersap.version>1.1.0</hibersap.version>
 		<sapjco.version>3.0.9</sapjco.version>
+		<camel.osgi.export.pkg>se.r2m.camel.sap.*</camel.osgi.export.pkg>
 	</properties>
 
 	<dependencies>
@@ -117,6 +118,7 @@
 						<Private-Package>com.sap.*</Private-Package>
 						<Import-Package>
 							!com.sap.*,
+							*
 						</Import-Package>
 					</instructions>
 				</configuration>
