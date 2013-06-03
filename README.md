@@ -1,5 +1,3 @@
-[![Build Status](https://api.travis-ci.org/oltoko/camel-hibersap.png?branch=master)](http://travis-ci.org/oltoko/camel-hibersap)
-
 This is a simple example on how a Camel SAP connector using the Hibsersap library could be made.
 It can be used to call SAP BAPI functions from camel endpoints.
 It is built as an OSGi bundle and embeds all SAP JCo software (including the native libraries) as well as Hibersap itself.
