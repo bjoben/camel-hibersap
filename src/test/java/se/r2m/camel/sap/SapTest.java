@@ -18,14 +18,16 @@ package se.r2m.camel.sap;
 
 import org.apache.camel.test.junit4.CamelSpringTestSupport;
 import org.junit.Test;
-import org.springframework.context.support.AbstractXmlApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
 
 import se.r2m.camel.sap.example.CompanyCode;
 import se.r2m.camel.sap.example.CompanyCodeGetList;
 import se.r2m.camel.sap.example.StfcConnection;
 import se.r2m.camel.sap.example.SystemInfo;
 
+@ContextConfiguration
 public class SapTest extends CamelSpringTestSupport {
 
 	@Test
@@ -97,10 +99,12 @@ public class SapTest extends CamelSpringTestSupport {
 
 	}
 
-
-	@Override
-	protected AbstractXmlApplicationContext createApplicationContext() {
-		return new ClassPathXmlApplicationContext("META-INF/spring/test-context.xml");
-	}
-
+        /* (non-Javadoc)
+         * @see org.apache.camel.test.junit4.CamelSpringTestSupport#createApplicationContext()
+         */
+        @Override
+        protected AbstractApplicationContext createApplicationContext() {
+            return new ClassPathXmlApplicationContext("META-INF/spring/test-context.xml");
+        }
+	
 }

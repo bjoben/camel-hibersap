@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
 import org.apache.camel.AsyncCallback;
 import org.apache.camel.AsyncProcessor;
 import org.apache.camel.Exchange;
@@ -40,15 +41,17 @@ public class HibersapProducer extends DefaultProducer implements AsyncProcessor 
 		super(endpoint);
 		this.endpoint = endpoint;
 	}
-
+	
 	@Override
 	public void process(Exchange exchange) throws Exception {
+	    
 		SessionManager sessionManager = endpoint.getSessionManager();
 		log.debug("process(exchange) called, getting serializable body");
 		Object body = exchange.getIn().getMandatoryBody(Serializable.class);
 
 		log.debug("checking if hibersap annotation present");
 		if (!body.getClass().isAnnotationPresent(Bapi.class)) {
+		        log.error("No HiberSAP @Bapi Annotation in Body Class: " + body.getClass().getName());
 			throw new IllegalArgumentException("body must be a class with @org.hibersap.annotations.Bapi annotations");
 		}
 
@@ -62,11 +65,12 @@ public class HibersapProducer extends DefaultProducer implements AsyncProcessor 
 			// session.beginTransaction();
 			log.debug("executing function call");
 			session.execute(copy);
-
-			if (exchange.getPattern().isOutCapable()) {
-				exchange.getOut().setBody(copy);
-			}
+			
+			exchange.getIn().setBody(copy);
 			// session.getTransaction().commit();
+		} catch (Exception e) {
+		    log.error("Failed to execute RFC", e);
+		    throw e;
 		} finally {
 			session.close();
 		}

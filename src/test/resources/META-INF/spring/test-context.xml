@@ -51,7 +51,7 @@
 		<property name="name" value="A14" />
 		<property name="context" value="org.hibersap.execution.jco.JCoContext" />
 		<property name="properties" ref="sapConnection" />
-		<property name="classes" ref="examples" />
+		<property name="annotatedClasses" ref="examples" />
 	</bean>
 
 	<util:set id="examples">
@@ -76,7 +76,7 @@
 
 		<camel:route>
 			<camel:from uri="direct:A14" />
-			<camel:to uri="hibersap:A14?classes=#examples" />
+			<camel:to uri="hibersap:A14?annotatedClasses=#examples" />
 			<camel:to uri="mock:result" />
 		</camel:route>
 
